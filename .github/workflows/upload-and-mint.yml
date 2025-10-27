@@ -21,14 +21,15 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: yarn install --frozen-lockfile || yarn install
+        run: cd packages/nextjs && yarn install --frozen-lockfile || yarn install
       - name: Debug git status
         run: git status
       - name: Upload images and mint NFTs
+        working-directory: packages/nextjs
         env:
           NFT_STORAGE_API_KEY: ${{ secrets.NFT_STORAGE_API_KEY }}
           MNEMONIC: ${{ secrets.MNEMONIC }}
           ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
           CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
         run: |
-          node scripts/upload-and-mint.cjs ./images ./metadataList.json ${{ secrets.CONTRACT_ADDRESS }}
+          node ../../scripts/upload-and-mint.cjs ../../images ../../metadataList.json ${{ secrets.CONTRACT_ADDRESS }}
