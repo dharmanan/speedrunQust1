@@ -1,4 +1,3 @@
-## Triggered by Copilot to force GitHub Actions reload
 name: Upload and Mint NFTs
 on:
   workflow_dispatch:
@@ -22,8 +21,6 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: cd packages/nextjs && yarn install --frozen-lockfile || yarn install
-      - name: Debug git status
-        run: git status
       - name: Upload images and mint NFTs
         working-directory: packages/nextjs
         env:
