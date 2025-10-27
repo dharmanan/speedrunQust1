@@ -22,6 +22,8 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: yarn install --frozen-lockfile || yarn install
+      - name: Debug git status
+        run: git status
       - name: Upload images and mint NFTs
         env:
           NFT_STORAGE_API_KEY: ${{ secrets.NFT_STORAGE_API_KEY }}
