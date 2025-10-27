@@ -1,0 +1,32 @@
+## Triggered by Copilot to force GitHub Actions reload
+name: Upload and Mint NFTs
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'images/**'
+      - 'scripts/upload-and-mint.cjs'
+      - '.github/workflows/upload-and-mint.yml'
+      - 'package.json'
+      - 'yarn.lock'
+
+
+  upload_and_mint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile || yarn install
+      - name: Upload images and mint NFTs
+        env:
+          NFT_STORAGE_API_KEY: ${{ secrets.NFT_STORAGE_API_KEY }}
+          MNEMONIC: ${{ secrets.MNEMONIC }}
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+          CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
+        run: |
+          node scripts/upload-and-mint.cjs ./images ./metadataList.json ${{ secrets.CONTRACT_ADDRESS }}

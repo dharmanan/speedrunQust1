@@ -1,0 +1,7 @@
+{
+  "/ipfs-upload/page": "app/ipfs-upload/page.js",
+  "/myNFTs/page": "app/myNFTs/page.js",
+  "/ipfs-download/page": "app/ipfs-download/page.js",
+  "/debug-contracts/page": "app/debug-contracts/page.js",
+  "/block-explorer/page": "app/block-explorer/page.js"
+}
