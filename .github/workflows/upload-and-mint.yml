@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'images/**'
-      - 'scripts/upload-and-mint.cjs'
-      - '.github/workflows/upload-and-mint.yml'
-      - 'package.json'
-      - 'yarn.lock'
+      - images/**
+      - scripts/upload-and-mint.cjs
+      - .github/workflows/upload-and-mint.yml
+      - package.json
+      - yarn.lock
 
 jobs:
   upload_and_mint:
@@ -20,13 +20,12 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: cd packages/nextjs && yarn install --frozen-lockfile || yarn install
+        run: yarn install --frozen-lockfile || yarn install
       - name: Upload images and mint NFTs
-        working-directory: packages/nextjs
         env:
           NFT_STORAGE_API_KEY: ${{ secrets.NFT_STORAGE_API_KEY }}
           MNEMONIC: ${{ secrets.MNEMONIC }}
           ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
           CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
         run: |
-          node ../../scripts/upload-and-mint.cjs ../../images ../../metadataList.json ${{ secrets.CONTRACT_ADDRESS }}
+          node scripts/upload-and-mint.cjs ./images ./metadataList.json ${{ secrets.CONTRACT_ADDRESS }}
