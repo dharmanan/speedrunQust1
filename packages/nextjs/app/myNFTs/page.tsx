@@ -18,7 +18,7 @@ export default function MyNFTsPage() {
   const [loading, setLoading] = React.useState(false);
 
   // Kontrat adresi ve ABI
-  const contractAddress = "0xfA6B9b65beDB1a854C3a115315AD58ff2dC9A88b";
+  const contractAddress = "0x096a1E215C5A1ec86FC1FD8e7D2dff782f557a77";
   const abi = [
     "function mintItem(address to, string memory tokenURI) public returns (uint256)",
     "function balanceOf(address owner) view returns (uint256)",
@@ -31,27 +31,34 @@ export default function MyNFTsPage() {
     setLoading(true);
     setError("");
     try {
-      if (!window.ethereum) throw new Error("Metamask gerekli!");
+      if (!window.ethereum) throw new Error("MetaMask required!");
       await window.ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const userAddress = await signer.getAddress();
+      console.log("User address:", userAddress);
       const contract = new ethers.Contract(contractAddress, abi, provider);
       const balance = await contract.balanceOf(userAddress);
+      console.log("Balance:", balance.toString());
       const nftsFetched = [];
       for (let i = 0; i < balance.toNumber(); i++) {
         const tokenId = await contract.tokenOfOwnerByIndex(userAddress, i);
+        console.log("Token ID:", tokenId.toString());
         let tokenURI = "";
         try {
           tokenURI = await contract.tokenURI(tokenId);
-        } catch {
+          console.log("Token URI:", tokenURI);
+        } catch (e) {
+          console.log("Token URI error:", e);
           tokenURI = "";
         }
         nftsFetched.push({ tokenId: tokenId.toString(), tokenURI });
       }
+      console.log("NFTs fetched:", nftsFetched);
       setNfts(nftsFetched);
     } catch (e) {
-      setError(e.message || "NFT'ler alınamadı");
+      console.log("Fetch error:", e);
+      setError(e.message || "Failed to fetch NFTs");
     }
     setLoading(false);
   };
@@ -62,7 +69,7 @@ export default function MyNFTsPage() {
     setError("");
     setTxHash("");
     try {
-      if (!window.ethereum) throw new Error("Metamask gerekli!");
+      if (!window.ethereum) throw new Error("MetaMask required!");
       await window.ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -75,7 +82,7 @@ export default function MyNFTsPage() {
       await tx.wait();
       await fetchNFTs();
     } catch (e) {
-      setError(e.message || "Mint işlemi başarısız oldu");
+      setError(e.message || "Mint operation failed");
     }
     setMinting(false);
   };
@@ -92,11 +99,11 @@ export default function MyNFTsPage() {
         <button onClick={handleMint} disabled={minting} style={{ padding: "20px 48px", fontSize: 22, borderRadius: 12, background: "#0879ff", color: "#fff", border: "none", marginBottom: 32, fontWeight: 600, boxShadow: "0 2px 8px #0001" }}>
           {minting ? "Minting..." : "MINT NFT"}
         </button>
-        {txHash && <div style={{ marginBottom: 16 }}>Mint işlemi gönderildi! Tx: <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer">{txHash}</a></div>}
+        {txHash && <div style={{ marginBottom: 16 }}>Mint transaction sent! Tx: <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer">{txHash}</a></div>}
         {error && <div style={{ color: "red", marginBottom: 16 }}>{error}</div>}
       </div>
       <div style={{ flex: 2, display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
-        {loading ? <div>NFT'ler yükleniyor...</div> : nfts.length === 0 ? <div>Hiç NFT'niz yok.</div> : nfts.map(nft => <NFTCard key={nft.tokenId} tokenId={nft.tokenId} tokenURI={nft.tokenURI} />)}
+        {loading ? <div>Loading NFTs...</div> : nfts.length === 0 ? <div>You don't have any NFTs.</div> : nfts.map(nft => <NFTCard key={nft.tokenId} tokenId={nft.tokenId} tokenURI={nft.tokenURI} />)}
       </div>
     </div>
   );

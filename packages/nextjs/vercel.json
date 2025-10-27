@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "functions": {
+    "app/**/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["fra1"],
+  "env": {
+    "NEXT_PUBLIC_RPC_URL": "https://rpc.sepolia.org"
+  }
+}
