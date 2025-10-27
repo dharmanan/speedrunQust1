@@ -10,7 +10,7 @@ on:
       - 'package.json'
       - 'yarn.lock'
 
-
+jobs:
   upload_and_mint:
     runs-on: ubuntu-latest
     steps:
