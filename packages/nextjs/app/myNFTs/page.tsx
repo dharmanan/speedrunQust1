@@ -31,9 +31,9 @@ export default function MyNFTsPage() {
     setLoading(true);
     setError("");
     try {
-      if (!(window as any).ethereum) throw new Error("Metamask gerekli!");
-      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+      if (!window.ethereum) throw new Error("Metamask gerekli!");
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const userAddress = await signer.getAddress();
       const contract = new ethers.Contract(contractAddress, abi, provider);
@@ -62,9 +62,9 @@ export default function MyNFTsPage() {
     setError("");
     setTxHash("");
     try {
-      if (!(window as any).ethereum) throw new Error("Metamask gerekli!");
-      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+      if (!window.ethereum) throw new Error("Metamask gerekli!");
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const userAddress = await signer.getAddress();
       const contract = new ethers.Contract(contractAddress, abi, signer);
