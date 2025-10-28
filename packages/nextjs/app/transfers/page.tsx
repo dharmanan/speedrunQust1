@@ -16,7 +16,7 @@ export default function TransfersPage() {
   const [error, setError] = React.useState("");
 
   // Kontrat adresi ve ABI
-  const contractAddress = "0x096a1E215C5A1ec86FC1FD8e7D2dff782f557a77";
+  const contractAddress = "0xE547D16b26A71034aC902c86f3757Ab3d92AB727";
   const abi = [
     "function transferFrom(address from, address to, uint256 tokenId) public",
     "function ownerOf(uint256 tokenId) view returns (address)"

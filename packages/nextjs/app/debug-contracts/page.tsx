@@ -13,7 +13,7 @@ export default function DebugContractsPage() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
-  const contractAddress = "0x096a1E215C5A1ec86FC1FD8e7D2dff782f557a77";
+  const contractAddress = "0xE547D16b26A71034aC902c86f3757Ab3d92AB727";
   const abi = [
     "function name() view returns (string)",
     "function symbol() view returns (string)",

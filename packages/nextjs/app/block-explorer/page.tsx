@@ -9,29 +9,9 @@ declare global {
 }
 
 export default function BlockExplorerPage() {
-  const [userAddress, setUserAddress] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+  const contractAddress = "0xE547D16b26A71034aC902c86f3757Ab3d92AB727"; // YourCollectible contract address
 
-  const contractAddress = "0x096a1E215C5A1ec86FC1FD8e7D2dff782f557a77"; // YourCollectible contract address
-
-  const connectWallet = async () => {
-    setLoading(true);
-    try {
-      if (!window.ethereum) throw new Error("MetaMask required!");
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      setUserAddress(address);
-    } catch (e) {
-      console.error("Wallet connection failed:", e);
-    }
-    setLoading(false);
-  };
-
-  React.useEffect(() => {
-    connectWallet();
-  }, []);
+  // Removed auto-connect on page load for better user control
 
   const openEtherscan = (type: 'address' | 'contract', addr: string) => {
     const baseUrl = "https://sepolia.etherscan.io";
@@ -64,45 +44,7 @@ export default function BlockExplorerPage() {
           </button>
         </div>
 
-        <h3 style={{ fontSize: 24, fontWeight: 600, marginBottom: 24, marginTop: 32 }}>Your Wallet</h3>
-        {userAddress ? (
-          <div style={{ marginBottom: 16 }}>
-            <strong>Your Address:</strong>
-            <div style={{ fontFamily: "monospace", background: "#f5f5f5", padding: "8px", borderRadius: 4, marginTop: 4 }}>
-              {userAddress}
-            </div>
-            <button
-              onClick={() => openEtherscan('address', userAddress)}
-              style={{
-                marginTop: 8,
-                padding: "8px 16px",
-                background: "#0879ff",
-                color: "#fff",
-                border: "none",
-                borderRadius: 4,
-                cursor: "pointer"
-              }}
-            >
-              View on Etherscan
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={connectWallet}
-            disabled={loading}
-            style={{
-              padding: "12px 24px",
-              background: "#28a745",
-              color: "#fff",
-              border: "none",
-              borderRadius: 4,
-              cursor: loading ? "not-allowed" : "pointer",
-              fontSize: 16
-            }}
-          >
-            {loading ? "Connecting..." : "Connect Wallet"}
-          </button>
-        )}
+        <h3 style={{ fontSize: 24, fontWeight: 600, marginBottom: 24, marginTop: 32 }}>Contract Information</h3>
 
         <div style={{ marginTop: 32, padding: 16, background: "#fff3cd", borderRadius: 8, border: "1px solid #ffeaa7" }}>
           <strong>Note:</strong> This is Sepolia testnet explorer. Use mainnet.etherscan.io for mainnet.

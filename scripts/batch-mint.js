@@ -15,12 +15,12 @@ async function main() {
 
   // Update with your contract ABI
   const abi = [
-    "function mint(address to, string memory tokenURI) public returns (uint256)"
+    "function mintItem(address to, string memory uri) public returns (uint256)"
   ];
   const contract = new ethers.Contract(contractAddress, abi, wallet);
 
   for (const entry of metadataList) {
-    const tx = await contract.mint(wallet.address, entry.metadataUrl);
+    const tx = await contract.mintItem(wallet.address, entry.metadataUrl);
     console.log(`Minted ${entry.filename}: tx ${tx.hash}`);
     await tx.wait();
   }

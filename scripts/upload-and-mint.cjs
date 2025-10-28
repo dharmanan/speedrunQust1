@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 /**
  * Usage:
- * NFT_STORAGE_API_KEY="..." MNEMONIC="..." ALCHEMY_API_KEY="..." node scripts/upload-and-mint.cjs ./images ./metadataList.json 0xContractAddress
+ * PINATA_API_KEY="..." PINATA_API_SECRET="..." MNEMONIC="..." ALCHEMY_API_KEY="..." node scripts/upload-and-mint.cjs ./images ./metadataList.json 0xContractAddress
  *
  * If contractAddress is omitted, only upload is performed.
  */
 const fs = require('fs');
 const path = require('path');
-const { NFTStorage, File } = require('nft.storage');
-const mime = require('mime');
+const axios = require('axios');
+const FormData = require('form-data');
+const mime = require('mime-types');
 const { ethers } = require('ethers');
 
-const apiKey = process.env.NFT_STORAGE_API_KEY;
+const apiKey = process.env.PINATA_API_KEY;
+const apiSecret = process.env.PINATA_API_SECRET;
 const mnemonic = process.env.MNEMONIC;
 const alchemyKey = process.env.ALCHEMY_API_KEY;
 
@@ -20,28 +22,54 @@ if (!imagesDir || !outputJson) {
   console.error('Usage: node scripts/upload-and-mint.cjs <imagesDir> <outputJson> [contractAddress]');
   process.exit(1);
 }
-if (!apiKey) {
-  console.error('NFT_STORAGE_API_KEY env required');
+if (!apiKey || !apiSecret) {
+  console.error('PINATA_API_KEY and PINATA_API_SECRET env required');
   process.exit(1);
 }
 
 async function uploadImages() {
-  const client = new NFTStorage({ token: apiKey });
   const files = fs.readdirSync(imagesDir).filter(f => !f.startsWith('.'));
   const results = [];
   for (const filename of files) {
     const filePath = path.join(imagesDir, filename);
     const content = fs.readFileSync(filePath);
-    const type = mime.getType(filePath);
-    const imageFile = new File([content], filename, { type });
-    const metadata = {
-      name: path.parse(filename).name,
-      description: `NFT image for ${filename}`,
-      image: imageFile,
-    };
-    const stored = await client.store(metadata);
-    results.push({ filename, metadataUrl: stored.url });
-    console.log(`Uploaded ${filename} -> ${stored.url}`);
+    const type = mime.lookup(filePath);
+    
+    const formData = new FormData();
+    formData.append('file', content, {
+      filename: filename,
+      contentType: type
+    });
+    
+    const metadata = JSON.stringify({
+      name: filename,
+      keyvalues: {
+        description: `NFT image for ${filename}`
+      }
+    });
+    formData.append('pinataMetadata', metadata);
+    
+    const options = JSON.stringify({
+      cidVersion: 0
+    });
+    formData.append('pinataOptions', options);
+    
+    try {
+      const response = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
+        headers: {
+          ...formData.getHeaders(),
+          pinata_api_key: apiKey,
+          pinata_secret_api_key: apiSecret
+        }
+      });
+      
+      const metadataUrl = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+      results.push({ filename, metadataUrl });
+      console.log(`Uploaded ${filename} -> ${metadataUrl}`);
+    } catch (error) {
+      console.error(`Failed to upload ${filename}:`, error.response?.data || error.message);
+      throw error;
+    }
   }
   fs.writeFileSync(outputJson, JSON.stringify(results, null, 2));
   console.log(`Metadata list written to ${outputJson}`);

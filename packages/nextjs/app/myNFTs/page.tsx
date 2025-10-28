@@ -16,9 +16,10 @@ export default function MyNFTsPage() {
   const [error, setError] = React.useState("");
   const [nfts, setNfts] = React.useState<{ tokenId: string; tokenURI: string }[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const [ipfsHash, setIpfsHash] = React.useState("QmYwAPJzv5CZsnAzt8auVTL7D1R6ZaaEXSXy4CkqB5tFh7");
 
   // Kontrat adresi ve ABI
-  const contractAddress = "0x096a1E215C5A1ec86FC1FD8e7D2dff782f557a77";
+  const contractAddress = "0xE547D16b26A71034aC902c86f3757Ab3d92AB727";
   const abi = [
     "function mintItem(address to, string memory tokenURI) public returns (uint256)",
     "function balanceOf(address owner) view returns (uint256)",
@@ -75,8 +76,7 @@ export default function MyNFTsPage() {
       const signer = provider.getSigner();
       const userAddress = await signer.getAddress();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      // Örnek çalışan bir IPFS görsel hash'i (bir kedi resmi)
-      const ipfsHash = "QmYwAPJzv5CZsnAzt8auVTL7D1R6ZaaEXSXy4CkqB5tFh7";
+      // Kullanıcının girdiği IPFS hash'ini kullan
       const tx = await contract.mintItem(userAddress, ipfsHash);
       setTxHash(tx.hash);
       await tx.wait();
@@ -96,6 +96,26 @@ export default function MyNFTsPage() {
     <div style={{ display: "flex", alignItems: "flex-start", gap: 48, maxWidth: 1200, margin: "0 auto", padding: 32 }}>
       <div style={{ flex: 1, minWidth: 280 }}>
         <h2 style={{ fontSize: 36, fontWeight: 700, marginBottom: 32, textAlign: "left" }}>My NFTs</h2>
+
+        <div style={{ marginBottom: 24 }}>
+          <label style={{ display: "block", marginBottom: 8, fontWeight: 600 }}>IPFS Hash (Metadata URI):</label>
+          <input
+            type="text"
+            value={ipfsHash}
+            onChange={(e) => setIpfsHash(e.target.value)}
+            placeholder="Enter IPFS hash (e.g., QmYwAPJzv5CZsnAzt8auVTL7D1R6ZaaEXSXy4CkqB5tFh7)"
+            style={{
+              width: "100%",
+              padding: "12px",
+              fontSize: 16,
+              borderRadius: 8,
+              border: "1px solid #ccc",
+              marginBottom: 16,
+              fontFamily: "monospace"
+            }}
+          />
+        </div>
+
         <button onClick={handleMint} disabled={minting} style={{ padding: "20px 48px", fontSize: 22, borderRadius: 12, background: "#0879ff", color: "#fff", border: "none", marginBottom: 32, fontWeight: 600, boxShadow: "0 2px 8px #0001" }}>
           {minting ? "Minting..." : "MINT NFT"}
         </button>
