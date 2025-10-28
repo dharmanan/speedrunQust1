@@ -1,1 +1,89 @@
-{"version":3,"caseSensitive":false,"basePath":"","rewrites":{"beforeFiles":[],"afterFiles":[],"fallback":[]},"redirects":[{"source":"/:path+/","destination":"/:path+","permanent":true,"internal":true,"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))\\/$"}],"headers":[]}
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/block-explorer",
+      "regex": "^/block\\-explorer(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/block\\-explorer(?:/)?$"
+    },
+    {
+      "page": "/debug-contracts",
+      "regex": "^/debug\\-contracts(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/debug\\-contracts(?:/)?$"
+    },
+    {
+      "page": "/ipfs-download",
+      "regex": "^/ipfs\\-download(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ipfs\\-download(?:/)?$"
+    },
+    {
+      "page": "/ipfs-upload",
+      "regex": "^/ipfs\\-upload(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ipfs\\-upload(?:/)?$"
+    },
+    {
+      "page": "/myNFTs",
+      "regex": "^/myNFTs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/myNFTs(?:/)?$"
+    },
+    {
+      "page": "/transfers",
+      "regex": "^/transfers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/transfers(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
