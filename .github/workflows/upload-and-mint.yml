@@ -3,13 +3,13 @@
 name: Upload and Mint NFTs
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'images/**'
-      - 'scripts/upload-and-mint.cjs'
-      - '.github/workflows/upload-and-mint.yml'
-      - 'package.json'
-      - 'yarn.lock'
+  # push:
+  #   paths:
+  #     - 'images/**'
+  #     - 'scripts/upload-and-mint.cjs'
+  #     - '.github/workflows/upload-and-mint.yml'
+  #     - 'package.json'
+  #     - 'yarn.lock'
 
 jobs:
   upload_and_mint:
