@@ -1,0 +1,10 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/block-explorer/page": "/block-explorer",
+  "/debug-contracts/page": "/debug-contracts",
+  "/ipfs-download/page": "/ipfs-download",
+  "/ipfs-upload/page": "/ipfs-upload",
+  "/myNFTs/page": "/myNFTs",
+  "/page": "/",
+  "/transfers/page": "/transfers"
+}
