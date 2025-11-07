@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "projects": [
+    {
+      "name": "nextjs",
+      "root": "packages/nextjs",
+      "buildCommand": "npm run build",
+      "outputDirectory": ".next"
+    }
+  ]
+}
