@@ -1,5 +1,3 @@
 {
-  "version": 2,
-  "buildCommand": "cd packages/nextjs && npm run build",
-  "outputDirectory": "packages/nextjs/.next"
+  "version": 2
 }
