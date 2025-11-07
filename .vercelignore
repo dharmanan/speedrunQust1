@@ -1,2 +1,5 @@
-/
-!/packages/nextjs
+*
+!packages
+packages/*
+!packages/nextjs
+
