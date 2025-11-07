@@ -1,3 +1,7 @@
 {
-  "version": 2
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_RPC_URL": "https://rpc.sepolia.org"
+  }
 }
