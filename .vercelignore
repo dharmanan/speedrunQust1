@@ -1,9 +1,0 @@
-# Ignore root files except essentials
-metadata/
-images/
-scripts/
-README.md
-.git
-.gitignore
-
-
