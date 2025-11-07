@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "buildCommand": "npm run build",
-  "env": {
-    "NEXT_PUBLIC_RPC_URL": "https://rpc.sepolia.org"
-  }
-}
