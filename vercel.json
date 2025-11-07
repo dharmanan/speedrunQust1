@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "buildCommand": "cd packages/nextjs && npm run build",
-  "outputDirectory": "packages/nextjs/.next",
-  "env": {
-    "NEXT_PUBLIC_RPC_URL": "https://rpc.sepolia.org"
-  }
-}
