@@ -30,3 +30,4 @@
  # Ignore next-swc binaries
  node_modules/@next/swc-*/
 node_modules
+.vercel
