@@ -55,6 +55,11 @@ npm install
 npm run dev
 ```
 
+## Submit SpeedRun      
+
+https://speedrunethereum.com/challenge/tokenization
+
+
 ## 📄 License
 
 MIT License
